@@ -1,11 +1,11 @@
 [submodule "app/src/main/assets/common"]
 	path = app/src/main/assets/common
 	url = git@github.com:Cobaltians-Samples/Samples-SideMenu-Web.git
-[submodule "app/src/main/assets/platform"]
-	path = app/src/main/assets/platform
-	url = git@github.com:cobaltians/Cobalt-Web-Sources.git
-	branch = develop
 [submodule "cobalt"]
 	path = cobalt
 	url = git@github.com:cobaltians/Cobalt-Android.git
 	branch = dev-nativeBars
+[submodule "app/src/main/assets/platform"]
+	path = app/src/main/assets/platform
+	url = git@github.com:cobaltians/Cobalt-Web-Android.git
+	branch = develop
