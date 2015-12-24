@@ -1,6 +1,9 @@
 package org.cobaltians.sidemenu.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
@@ -84,5 +87,62 @@ public class WithSidemenuActivity extends CobaltActivity {
         return Cobalt.getInstance(this).getFragmentForController(DefaultFragment.class,
                 "withSidemenu",
                 "home.html");
+    }
+
+    /******************************************************
+     * HELPERS
+     ******************************************************/
+
+    public void setDrawerState (boolean isEnabled) {
+        if (isEnabled) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            mDrawerToggle.setDrawerIndicatorEnabled(true);
+            mDrawerToggle.syncState();
+        }
+        else {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            mDrawerToggle.setDrawerIndicatorEnabled(false);
+            mDrawerToggle.syncState();
+        }
+    }
+
+    public void setDrawerVisible (final boolean isShow) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (isShow && !mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
+                else if (!isShow && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    mDrawerLayout.closeDrawers();
+                }
+            }
+        });
+    }
+
+    public void setDrawerToggle() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    mDrawerLayout.closeDrawers();
+                }
+                else mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+    }
+
+    public void switchFragment(final Fragment fragment) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.commit();
+
+                mDrawerLayout.closeDrawers();
+            }
+        });
     }
 }

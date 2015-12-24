@@ -11,6 +11,6 @@ public class SideMenuApplication extends Application {
         super.onCreate();
 
         Cobalt.getInstance(getApplicationContext()).setResourcePath("common/");
-        //Cobalt.getInstance(getApplicationContext()).setPackageName(getPackageName());
+        Cobalt.getInstance(getApplicationContext()).setPackageName(getPackageName());
     }
 }
