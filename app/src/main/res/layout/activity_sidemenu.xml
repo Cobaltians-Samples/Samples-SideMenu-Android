@@ -27,11 +27,11 @@
             android:layout_height="0dp"
             android:layout_weight="1.0" />
 
-        <fr.cobaltians.cobalt.customviews.BottomBar
+        <!-- only with next version cobalt <fr.cobaltians.cobalt.customviews.BottomBar
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:visibility="gone" />
+            android:visibility="gone" />-->
 
     </LinearLayout>
 
@@ -39,7 +39,7 @@
     <fragment
         class="org.cobaltians.sidemenu.fragments.SideMenuFragment"
         android:id="@+id/left_drawer"
-        android:layout_width="240dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
