@@ -3,7 +3,7 @@ package org.cobaltians.sidemenu.fragments;
 import org.cobaltians.sidemenu.activities.WithSidemenuActivity;
 import org.json.JSONObject;
 
-import fr.cobaltians.cobalt.fragments.CobaltFragment;
+import org.cobaltians.cobalt.fragments.CobaltFragment;
 
 public class DefaultFragment extends CobaltFragment {
 

@@ -10,9 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import fr.cobaltians.cobalt.Cobalt;
-import fr.cobaltians.cobalt.activities.CobaltActivity;
-import fr.cobaltians.cobalt.fragments.CobaltFragment;
+import org.cobaltians.cobalt.Cobalt;
+import org.cobaltians.cobalt.activities.CobaltActivity;
+import org.cobaltians.cobalt.fragments.CobaltFragment;
 
 import org.cobaltians.sidemenu.R;
 import org.cobaltians.sidemenu.fragments.DefaultFragment;

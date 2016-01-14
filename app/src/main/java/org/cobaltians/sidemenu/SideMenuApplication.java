@@ -2,7 +2,7 @@ package org.cobaltians.sidemenu;
 
 import android.app.Application;
 
-import fr.cobaltians.cobalt.Cobalt;
+import org.cobaltians.cobalt.Cobalt;
 
 public class SideMenuApplication extends Application {
 

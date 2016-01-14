@@ -9,8 +9,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import fr.cobaltians.cobalt.Cobalt;
-import fr.cobaltians.cobalt.fragments.CobaltFragment;
+import org.cobaltians.cobalt.Cobalt;
+import org.cobaltians.cobalt.fragments.CobaltFragment;
 
 public class SideMenuFragment extends CobaltFragment {
 
