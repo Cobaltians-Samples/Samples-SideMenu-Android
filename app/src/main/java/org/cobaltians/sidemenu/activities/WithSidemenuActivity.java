@@ -32,15 +32,6 @@ public class WithSidemenuActivity extends CobaltActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Toolbar topBar = (Toolbar) findViewById(R.id.top_bar);
-        setSupportActionBar(topBar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this,
                 mDrawerLayout,
@@ -104,17 +95,22 @@ public class WithSidemenuActivity extends CobaltActivity {
      * HELPERS
      ******************************************************/
 
-    public void setDrawerState (boolean isEnabled) {
-        if (isEnabled) {
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            mDrawerToggle.setDrawerIndicatorEnabled(true);
-            mDrawerToggle.syncState();
-        }
-        else {
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            mDrawerToggle.setDrawerIndicatorEnabled(false);
-            mDrawerToggle.syncState();
-        }
+    public void setDrawerState (final boolean isEnabled) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (isEnabled) {
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                    mDrawerToggle.setDrawerIndicatorEnabled(true);
+                    mDrawerToggle.syncState();
+                }
+                else {
+                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                    mDrawerToggle.setDrawerIndicatorEnabled(false);
+                    mDrawerToggle.syncState();
+                }
+            }
+        });
     }
 
     public void setDrawerVisible (final boolean isShow) {
