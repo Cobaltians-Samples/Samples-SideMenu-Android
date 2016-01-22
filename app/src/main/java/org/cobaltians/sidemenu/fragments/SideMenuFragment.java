@@ -54,6 +54,22 @@ public class SideMenuFragment extends CobaltFragment {
                     }
 
                     ((WithSidemenuActivity) mContext).switchFragment(fragment);
+
+                    Bundle bundle = Cobalt.getInstance(mContext).getConfigurationForController(controller);
+                    if (bundle.containsKey(Cobalt.kBars)) {
+                        try {
+                            JSONObject actionBar = new JSONObject(bundle.getString(Cobalt.kBars));
+                            setBars(actionBar);
+                        }
+                        catch (JSONException exception) {
+                            setBars(null);
+                            if (Cobalt.DEBUG) {
+                                Log.e(Cobalt.TAG, TAG + " - onCreate: bars configuration parsing failed. " + bundle.getString(Cobalt.kBars));
+                            }
+                            exception.printStackTrace();
+                        }
+                    }
+                    else setBars(new JSONObject());
                 }
                 catch (JSONException e) {
                     Log.d(TAG, TAG + " - onUnhandledEvent: missing id, controller and/or page field(s) or not string(s)");
