@@ -38,6 +38,9 @@ public class WithSidemenuActivity extends CobaltActivity {
                 R.string.open_drawer,
                 R.string.close_drawer);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
