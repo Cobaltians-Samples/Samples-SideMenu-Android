@@ -62,14 +62,12 @@ public class SideMenuFragment extends CobaltFragment {
                             setBars(actionBar);
                         }
                         catch (JSONException exception) {
-                            setBars(null);
                             if (Cobalt.DEBUG) {
                                 Log.e(Cobalt.TAG, TAG + " - onCreate: bars configuration parsing failed. " + bundle.getString(Cobalt.kBars));
                             }
                             exception.printStackTrace();
                         }
                     }
-                    else setBars(new JSONObject());
                 }
                 catch (JSONException e) {
                     Log.d(TAG, TAG + " - onUnhandledEvent: missing id, controller and/or page field(s) or not string(s)");
