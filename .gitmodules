@@ -2,10 +2,6 @@
 	path = cobalt
 	url = https://github.com/cobaltians/Cobalt-Android.git
 	branch = dev-nativeBars
-[submodule "app/src/main/assets/platform"]
-	path = app/src/main/assets/platform
-	url = https://github.com/cobaltians/Cobalt-Web-Android
-	branch = develop
 [submodule "app/src/main/assets/common"]
 	path = app/src/main/assets/common
 	url = https://github.com/Cobaltians-Samples/Samples-SideMenu-Web.git
