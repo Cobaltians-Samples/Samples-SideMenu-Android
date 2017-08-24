@@ -44,7 +44,7 @@ public class DefaultFragment extends CobaltFragment {
     }
 
     @Override
-    protected void onUnhandledMessage(JSONObject message) {
-
+    protected boolean onUnhandledMessage(JSONObject message) {
+        return false;
     }
 }

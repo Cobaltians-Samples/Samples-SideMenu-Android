@@ -148,7 +148,7 @@ public class WithSidemenuActivity extends CobaltActivity {
             @Override
             public void run() {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.replace(R.id.webview_fragment_container, fragment);
                 fragmentTransaction.commit();
 
                 mDrawerLayout.closeDrawers();
