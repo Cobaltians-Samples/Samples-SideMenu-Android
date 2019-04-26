@@ -1,7 +1,12 @@
 package org.cobaltians.sidemenu.fragments;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import org.cobaltians.cobalt.Cobalt;
+import org.cobaltians.cobalt.pubsub.PubSubInterface;
 import org.cobaltians.sidemenu.activities.WithSidemenuActivity;
 import org.json.JSONObject;
 
@@ -10,41 +15,57 @@ import org.cobaltians.cobalt.fragments.CobaltFragment;
 public class DefaultFragment extends CobaltFragment {
 
     @Override
-    protected boolean onUnhandledCallback(String callback, JSONObject data) {
-        return false;
-    }
+    public void onCreate(Bundle savedInstanceState) {
 
-    @Override
-    protected boolean onUnhandledEvent(String event, JSONObject data, String callback) {
-        Activity activity = getActivity();
-        if (activity != null
-            && activity instanceof WithSidemenuActivity) {
-            switch (event) {
-                case "sidemenu:disable":
+        Cobalt.subscribeToChannel("sidemenu:disable", new PubSubInterface() {
+            @Override
+            public void onMessageReceived(@Nullable JSONObject message, @NonNull String channel) {
+                Activity activity = getActivity();
+                if (activity instanceof WithSidemenuActivity) {
                     ((WithSidemenuActivity) activity).setDrawerState(false);
-                    return true;
-                case "sidemenu:enable":
-                    ((WithSidemenuActivity) activity).setDrawerState(true);
-                    return true;
-                case "sidemenu:show":
-                    ((WithSidemenuActivity) activity).setDrawerVisible(true);
-                    return true;
-                case "sidemenu:hide":
-                    ((WithSidemenuActivity) activity).setDrawerVisible(false);
-                    return true;
-                case "sidemenu:toggle":
-                    ((WithSidemenuActivity) activity).setDrawerToggle();
-                    return true;
-                default:
-                    return false;
+                }
             }
-        }
+        });
 
-        return false;
-    }
+        Cobalt.subscribeToChannel("sidemenu:enable", new PubSubInterface() {
+            @Override
+            public void onMessageReceived(@Nullable JSONObject message, @NonNull String channel) {
+                Activity activity = getActivity();
+                if (activity instanceof WithSidemenuActivity) {
+                    ((WithSidemenuActivity) activity).setDrawerState(true);
+                }
+            }
+        });
 
-    @Override
-    protected boolean onUnhandledMessage(JSONObject message) {
-        return false;
+        Cobalt.subscribeToChannel("sidemenu:show", new PubSubInterface() {
+            @Override
+            public void onMessageReceived(@Nullable JSONObject message, @NonNull String channel) {
+                Activity activity = getActivity();
+                if (activity instanceof WithSidemenuActivity) {
+                    ((WithSidemenuActivity) activity).setDrawerVisible(true);
+                }
+            }
+        });
+
+        Cobalt.subscribeToChannel("sidemenu:hide", new PubSubInterface() {
+            @Override
+            public void onMessageReceived(@Nullable JSONObject message, @NonNull String channel) {
+                Activity activity = getActivity();
+                if (activity instanceof WithSidemenuActivity) {
+                    ((WithSidemenuActivity) activity).setDrawerVisible(false);
+                }
+            }
+        });
+        Cobalt.subscribeToChannel("sidemenu:toggle", new PubSubInterface() {
+            @Override
+            public void onMessageReceived(@Nullable JSONObject message, @NonNull String channel) {
+                Activity activity = getActivity();
+                if (activity instanceof WithSidemenuActivity) {
+                    ((WithSidemenuActivity) activity).setDrawerToggle();
+                }
+            }
+        });
+
+        super.onCreate(savedInstanceState);
     }
 }
