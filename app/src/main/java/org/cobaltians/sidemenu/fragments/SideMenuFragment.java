@@ -19,6 +19,12 @@ public class SideMenuFragment extends CobaltFragment implements PubSubInterface{
 
     private HashMap<String, CobaltFragment> mFragmentStack;
 
+
+    @Override
+    protected String getPage() {
+        return "sidemenu.html";
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
