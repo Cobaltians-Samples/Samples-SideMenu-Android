@@ -1,8 +1,11 @@
 package org.cobaltians.sidemenu.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import org.cobaltians.cobalt.pubsub.PubSubInterface;
 import org.cobaltians.sidemenu.activities.WithSidemenuActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,16 +15,10 @@ import java.util.HashMap;
 import org.cobaltians.cobalt.Cobalt;
 import org.cobaltians.cobalt.fragments.CobaltFragment;
 
-public class SideMenuFragment extends CobaltFragment {
+public class SideMenuFragment extends CobaltFragment implements PubSubInterface{
 
     private HashMap<String, CobaltFragment> mFragmentStack;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mFragmentStack = new HashMap<>();
-    }
 
     @Override
     protected String getPage() {
@@ -29,58 +26,55 @@ public class SideMenuFragment extends CobaltFragment {
     }
 
     @Override
-    protected boolean onUnhandledCallback(String callback, JSONObject data) {
-        return false;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mFragmentStack = new HashMap<>();
+
+        Cobalt.subscribeToChannel("sidemenu:switch", this);
+
     }
 
     @Override
-    protected boolean onUnhandledEvent(String event, JSONObject data, String callback) {
-        switch (event) {
-            case "sidemenu:switch":
-                try {
-                    String id = data.getString("id");
-                    String controller = data.getString("controller");
-                    String page = data.getString("page");
-                    JSONObject dataForFragment = data.optJSONObject("data");
+    public void onMessageReceived(@Nullable JSONObject data, @NonNull String channel) {
 
-                    CobaltFragment fragment;
-                    if (mFragmentStack.containsKey(id)) {
-                        fragment = mFragmentStack.get(id);
+        if ("sidemenu:switch".equals(channel)) {
+            try {
+                String id = data.getString("id");
+                String controller = data.getString("controller");
+                String page = data.getString("page");
+                JSONObject dataForFragment = data.optJSONObject("data");
+
+                CobaltFragment fragment;
+                if (mFragmentStack.containsKey(id)) {
+                    fragment = mFragmentStack.get(id);
+                }
+                else {
+                    fragment = Cobalt.getInstance(mContext).getFragmentForController(DefaultFragment.class, controller, page);
+                    mFragmentStack.put(id, fragment);
+                    ((WithSidemenuActivity) mContext).setDataNavigation(dataForFragment);
+                }
+
+                ((WithSidemenuActivity) mContext).switchFragment(fragment);
+
+                Bundle bundle = Cobalt.getInstance(mContext).getConfigurationForController(controller);
+                if (bundle.containsKey(Cobalt.kBars)) {
+                    try {
+                        JSONObject actionBar = new JSONObject(bundle.getString(Cobalt.kBars));
+                        setBars(actionBar);
                     }
-                    else {
-                        fragment = Cobalt.getInstance(mContext).getFragmentForController(DefaultFragment.class, controller, page);
-                        mFragmentStack.put(id, fragment);
-                        ((WithSidemenuActivity) mContext).setDataNavigation(dataForFragment);
-                    }
-
-                    ((WithSidemenuActivity) mContext).switchFragment(fragment);
-
-                    Bundle bundle = Cobalt.getInstance(mContext).getConfigurationForController(controller);
-                    if (bundle.containsKey(Cobalt.kBars)) {
-                        try {
-                            JSONObject actionBar = new JSONObject(bundle.getString(Cobalt.kBars));
-                            setBars(actionBar);
+                    catch (JSONException exception) {
+                        if (Cobalt.DEBUG) {
+                            Log.e(Cobalt.TAG, TAG + " - onCreate: bars configuration parsing failed. " + bundle.getString(Cobalt.kBars));
                         }
-                        catch (JSONException exception) {
-                            if (Cobalt.DEBUG) {
-                                Log.e(Cobalt.TAG, TAG + " - onCreate: bars configuration parsing failed. " + bundle.getString(Cobalt.kBars));
-                            }
-                            exception.printStackTrace();
-                        }
+                        exception.printStackTrace();
                     }
                 }
-                catch (JSONException e) {
-                    Log.d(TAG, TAG + " - onUnhandledEvent: missing id, controller and/or page field(s) or not string(s)");
-                    e.printStackTrace();
-                }
-                return true;
-            default:
-                return false;
+            }
+            catch (JSONException e) {
+                Log.d(TAG, TAG + " - onUnhandledEvent: missing id, controller and/or page field(s) or not string(s)");
+                e.printStackTrace();
+            }
         }
-    }
-
-    @Override
-    protected boolean onUnhandledMessage(JSONObject message) {
-        return false;
     }
 }

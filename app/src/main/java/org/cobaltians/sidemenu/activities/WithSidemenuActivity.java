@@ -76,22 +76,20 @@ public class WithSidemenuActivity extends CobaltActivity {
     protected int getLayoutToInflate() {
         return R.layout.activity_sidemenu;
     }
-
+    
     @Override
-    public String getInitController() {
+    public String getController() {
         return "withSidemenu";
     }
 
     @Override
-    public String getInitPage() {
+    public String getPage() {
         return "home.html";
     }
-
+    
     @Override
     protected CobaltFragment getFragment() {
-        return Cobalt.getInstance(this).getFragmentForController(DefaultFragment.class,
-                "withSidemenu",
-                "home.html");
+        return new DefaultFragment();
     }
 
     /******************************************************
